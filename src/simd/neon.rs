@@ -113,15 +113,13 @@ fn escaped_mask(v: Simd128u) -> NeonBits {
 #[inline(always)]
 pub fn format_string(value: &str, dst: &mut [u8]) -> usize {
     unsafe {
-        let slice = value.as_bytes();
         let mut dptr = dst.as_mut_ptr();
         let dstart = dptr;
-        let mut nb: usize = slice.len();
 
         *dptr = b'"';
         dptr = dptr.add(1);
 
-        dptr = crate::simd::v128::format_raw(value, dptr);
+        dptr = format_raw(value, dptr);
 
         *dptr = b'"';
         dptr = dptr.add(1);
@@ -131,16 +129,12 @@ pub fn format_string(value: &str, dst: &mut [u8]) -> usize {
 
 #[inline(always)]
 pub fn format_unquoted(value: &str, dst: &mut [u8]) -> usize {
-    unsafe {
-        let slice = value.as_bytes();
-        let mut dptr = dst.as_mut_ptr();
-        let dstart = dptr;
-        let mut nb: usize = slice.len();
+    let mut dptr = dst.as_mut_ptr();
+    let dstart = dptr;
 
-        dptr = crate::simd::v128::format_raw(value, dptr);
+    dptr = unsafe { format_raw(value, dptr) };
 
-        dptr as usize - dstart as usize
-    }
+    dptr as usize - dstart as usize
 }
 
 #[target_feature(enable = "neon")]
