@@ -116,16 +116,12 @@ pub fn format_string(value: &str, dst: &mut [u8]) -> usize {
 
 #[inline(always)]
 pub fn format_unquoted(value: &str, dst: &mut [u8]) -> usize {
-    unsafe {
-        let slice = value.as_bytes();
-        let mut dptr = dst.as_mut_ptr();
-        let dstart = dptr;
-        let mut nb: usize = slice.len();
+    let mut dptr = dst.as_mut_ptr();
+    let dstart = dptr;
 
-        dptr = format_raw(value, dptr);
+    dptr = unsafe { format_raw(value, dptr) };
 
-        dptr as usize - dstart as usize
-    }
+    dptr as usize - dstart as usize
 }
 
 
