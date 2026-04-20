@@ -98,10 +98,8 @@ fn escaped_mask(v: Simd512u) -> u64 {
 #[inline(always)]
 pub fn format_string(value: &str, dst: &mut [u8]) -> usize {
     unsafe {
-        let slice = value.as_bytes();
         let mut dptr = dst.as_mut_ptr();
         let dstart = dptr;
-        let mut nb: usize = slice.len();
 
         *dptr = b'"';
         dptr = dptr.add(1);
@@ -127,7 +125,7 @@ pub fn format_unquoted(value: &str, dst: &mut [u8]) -> usize {
 
 #[inline(always)]
 #[target_feature(enable = "avx512f")]
-pub unsafe fn format_string(value: &str, mut dptr: *mut u8) -> *mut u8 {
+pub unsafe fn format_raw(value: &str, mut dptr: *mut u8) -> *mut u8 {
     unsafe {
         let slice = value.as_bytes();
         let mut sptr = slice.as_ptr();
