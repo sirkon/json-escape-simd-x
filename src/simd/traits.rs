@@ -1,5 +1,4 @@
 use std::ops::{BitAnd, BitOr, BitOrAssign};
-use std::ptr::copy_nonoverlapping;
 
 /// Portable SIMD traits
 pub trait Simd: Sized {
@@ -46,11 +45,4 @@ pub trait BitMask {
 
     /// clear high n bits.
     fn clear_high_bits(&self, n: usize) -> Self;
-}
-
-/// Trait to make pointer destinations less cumbersome to deal with.
-pub(crate) trait PointerTrailer {
-    unsafe fn append_byte(self, byte: u8) -> *mut u8;
-
-    unsafe fn append<T: AsRef<[u8]>>(self, src: T) -> *mut u8;
 }
