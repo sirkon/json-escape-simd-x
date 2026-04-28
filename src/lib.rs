@@ -326,9 +326,9 @@ fn format_unquoted(value: &str, dst: &mut [u8]) -> usize {
     {
         let has_neon = cfg!(target_os = "macos") || std::arch::is_aarch64_feature_detected!("neon");
         if has_neon {
-             simd::neon::format_unquoted(value, dst)
+            simd::neon::format_unquoted(value, dst)
         } else {
-             simd::v128::format_unquoted(value, dst)
+            simd::v128::format_unquoted(value, dst)
         }
     }
 

@@ -4,6 +4,7 @@ use std::arch::x86::*;
 use std::arch::x86_64::*;
 
 use std::ops::{BitAnd, BitOr, BitOrAssign};
+
 use super::{Mask, Simd, traits::BitMask, util::escape_unchecked};
 
 #[cfg(any(target_os = "linux", target_os = "macos"))]
